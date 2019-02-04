@@ -6,35 +6,43 @@ keep_md: yes
 
 
 ## Loading and preprocessing the data
-```{r echo=TRUE}
+
+```r
 df <- read.csv("activity.csv", stringsAsFactors = FALSE)
 df <- transform(df, date = as.Date(df$date, "%Y-%m-%d"))
 ```
 
 
 ## What is mean total number of steps taken per day?
-```{r echo=TRUE}
+
+```r
 stepsperday <- aggregate(df$steps, list(df$date), sum, na.rm = TRUE)
 hist(stepsperday$x, xlab = "total steps per day", main = "histogram of total steps per day")
 ```
 
-* The mean total steps per day is: `r mean(stepsperday$x, na.rm = TRUE)`
-* The median total steps per day is: `r median(stepsperday$x, na.rm = TRUE)`
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png)
+
+* The mean total steps per day is: 9354.2295082
+* The median total steps per day is: 10395
 
 ## What is the average daily activity pattern?
-```{r echo=TRUE}
+
+```r
 stepsperinterval <- aggregate(df$steps, list(df$interval), mean, na.rm = TRUE)
 plot(stepsperinterval$Group.1, stepsperinterval$x, type = "l",
      xlab = "5-minute interval", ylab = "steps", main = "average steps per interval")
 ```
 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
+
 * The 5 minute interval with the maximum steps on average is:
-`r stepsperinterval[which.max(stepsperinterval$x), "Group.1"]`
+835
 
 ## Imputing missing values - using the average for that time interval 
-* The number of missing values in the data set is: `r sum(is.na(df$steps))`
+* The number of missing values in the data set is: 2304
 
-```{r echo=TRUE}
+
+```r
 impdf <- data.frame(NA, NA)
 impdf <- cbind(impdf, df)
 for (i in 1:nrow(df)) {
@@ -45,8 +53,10 @@ impstepsperday <- aggregate(impdf$steps, list(impdf$date), sum)
 hist(impstepsperday$x, xlab = "total steps per day", main = "histogram of total steps per day imputing missing values")
 ```
 
-* The mean total steps per day imputing missing values is: `r mean(impstepsperday$x)`
-* The median total steps per day imputing missing values is: `r median(impstepsperday$x)`
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
+
+* The mean total steps per day imputing missing values is: 1.0766189 &times; 10<sup>4</sup>
+* The median total steps per day imputing missing values is: 1.0766189 &times; 10<sup>4</sup>
 * Impact of imputing missing values on mean: `r
 if (mean(impstepsperday$x) > mean(stepsperday$x, na.rm = TRUE)) "Increased" 
 else if (mean(impstepsperday$x) < mean(stepsperday$x, na.rm = TRUE)) "Decreased"
@@ -60,7 +70,8 @@ else "No change"
 `
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r echo=TRUE}
+
+```r
 library(lattice)
 df$daytype <- factor(
                 weekdays(df$date),
@@ -71,3 +82,5 @@ stepsperintervalbydaytype <- aggregate(df$steps, list(df$interval, df$daytype), 
 xyplot(x ~ Group.1 | Group.2, data = stepsperintervalbydaytype, layout = c(1, 2), type = "l",
        xlab = "5-minute interval", ylab = "steps", main = "average steps per interval comparing weekdays and weekends")
 ```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
