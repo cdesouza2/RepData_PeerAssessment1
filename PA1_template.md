@@ -22,7 +22,7 @@ hist(stepsperday$x, xlab = "total steps per day", main = "histogram of total ste
 
 ![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png)
 
-* The mean total steps per day is: 9354.2295082
+* The mean total steps per day is: 9354.23
 * The median total steps per day is: 10395
 
 ## What is the average daily activity pattern?
@@ -55,19 +55,12 @@ hist(impstepsperday$x, xlab = "total steps per day", main = "histogram of total 
 
 ![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
 
-* The mean total steps per day imputing missing values is: 1.0766189 &times; 10<sup>4</sup>
-* The median total steps per day imputing missing values is: 1.0766189 &times; 10<sup>4</sup>
-* Impact of imputing missing values on mean: `r
-if (mean(impstepsperday$x) > mean(stepsperday$x, na.rm = TRUE)) "Increased" 
-else if (mean(impstepsperday$x) < mean(stepsperday$x, na.rm = TRUE)) "Decreased"
-else "No change"
-`
-
-* Impact of imputing missing values on median: `r
-if (median(impstepsperday$x) > median(stepsperday$x, na.rm = TRUE)) "Increased"
-else if (median(impstepsperday$x) < median(stepsperday$x, na.rm = TRUE)) "Decreased"
-else "No change"
-`
+* The mean total steps per day imputing missing values is: 10766.2
+* The median total steps per day imputing missing values is: 10766.2
+* Impact of imputing missing values on mean:
+Increased
+* Impact of imputing missing values on median:
+Increased
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
